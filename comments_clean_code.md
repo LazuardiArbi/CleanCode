@@ -73,9 +73,10 @@ Terkadang berguna untuk memberikan informasi dasar dengan komentar. Contoh,
 komentar seperti ini kadang berguna atau bisa dibilang boleh digunakan namun akan lebih baik apabila kita menggubah nama function itu menjadi `responderBeingTested()`. yang dimana itu memperjelas tujuan function itu dan itu membuat kita tidak harus menambahkan komentar untuk memperjelas tujuan dari suatu code.
 
 Contoh lain,
->// format matched kk:mm:ss EEE, MMM dd, yyyy 
->Pattern timeMatcher = Pattern.compile("\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*");
-
+```
+// format matched kk:mm:ss EEE, MMM dd, yyyy 
+Pattern timeMatcher = Pattern.compile("\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*");
+```
 komentar ini bertujuan untuk memperjelas atau menjelaskan bahwa format yang di inginkan dari `Regex` tersebut. namun ini akan lebih baik apabila kita menkonvert-nya ke suatu class dan dari situ kita tidak akan memperlukan kommentar untuk memperjelas.
 
 ## Explanation of Intent
