@@ -66,11 +66,11 @@ jadi disini apabila kita biasanya untuk menyimpan Collection kita bisa menggunak
 
 lalu ada beberapa jenis kelas lain yang ditambahkan untuk mendukung desain concurrency yang lebih advanced. Berikut ini beberapa contoh:
 
-**ReentrantLock:** mengimplementasikan antarmuka kunci dan menyediakan sinkronisasi metode sambil mengakses sumber daya bersama.
+**ReentrantLock:** mengimplementasikan antarmuka kunci dan menyediakan sinkronisasi metode sambil mengakses sumber daya bersama. bisa dibilang suatu mekanisme yang membuat thread untuk mengakusisi suatu proses dengan mendapatkan "Lock"-nya, saat thread tersebut dapat lock tersebut maka threadd yang lain akan masuk ke dalam Queue.
 
-**Semaphore:** adalah sebuah struktur data komputer yang digunakan untuk menyelesaikan proses, yaitu untuk memecahkan masalah di mana lebih dari satu proses atau thread dijalankan bersamaan.
+**Semaphore:** adalah bisa dibilang suatu gate yang akan menjaga sebanyak apa thread dapat mengakses service, misalkan gate ini akan memaksimalkan 3. Maka hal yang akan dilakukan adalah saat ada thread yang akan mau mengakses service tersebut maka akan diperbolehkan karena resoucenya masih ada. maka resources sekarang menjadi 2 karena sudah terpakai sebelumnya, dan ini seterusnya hingga 0. apabila sudah 0 dan ada thread yang ingin mencoba untuk mengakses service tersebut maka tidak akan diblock untuk mengakses service tersebut hingga thread sebelumnya melakukan release.
 
-**CountDownLatch:** sebagai bantuan sinkronisasi, yang memungkinkan satu atau lebih thread menunggu , untuk menyelesaikan  suatu task yang diberikan.
+**CountDownLatch:** sebagai bantuan sinkronisasi, yang memungkinkan satu atau lebih thread menunggu , untuk menyelesaikan  suatu task yang diberikan. jadi saat countdownlatch digunakan biasanya untuk menunggu thread yang sendang dijalankan misalkan ada tiga thread yang sedang berjalan, maka countdownlatch akan menunggu ketiga-tiga thread tersebut jalan hingga selsai dan akan melanjutkan task setelahnya.
 
 ## Ketahui Models Execution Anda
 Basic Knowledge or definition:
