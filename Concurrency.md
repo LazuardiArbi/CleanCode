@@ -42,7 +42,7 @@ hal ini terjadi karena untuk skenario satu, thread pertama menggambil value ters
 Berikut ini adalah serangkaian prinsip dan teknik untuk mempertahankan sistem Anda dari masalah Concurrency code.
 
 #### Single Responsibility Principle
-adalah salah satu SOLID principle yang menyatakan bahwa seharusnya class atau method melakukan hanya satu hal. maka apabila terjadi perubahan disuatu class maka tidak akan memberikan effect ke klass yang lain yang "memiliki" class tersebut.
+adalah salah satu SOLID principle yang menyatakan bahwa seharusnya class atau method melakukan hanya satu hal. maka apabila terjadi perubahan disuatu class maka tidak akan memberikan effect ke klass yang lain yang "memiliki" class tersebut. dan ini dibutuhkan saat conccurency karena di conccurency sangat sulit untuk melacak kesalahan / debuging dengan melakukan hal ini maka kita akan lebih mudah untuk melakukan traceing karena satu class/method pasti melakukan satu hal.
 
 #### Corollary: Limit the Scope of Data
 Seperti contoh code yang tadi, apabila kita memodifikasi attribut yang sama dari suatu object yang dipisahkan menjadi dua thread akan terjadi skenario yang seperti tadi yang disebut "Race Condition". untuk mencegah hal tersebut kita bisa menggunakan keyword `synchronized` ke `critical section` yang digunakan di object yang disharing. Semakin banyak data yang disharing yang dapat diupdate, semakin besar kemungkinan terjadi:
@@ -62,9 +62,11 @@ Maksud dari bagian ini adalah sebisa mungkin apabila membuat code untuk thread j
 * Several library classes are not thread safe.
 
 #### Thread-Safe Collections
-jadi disini apabila kita biasanya untuk menyimpan Collection kita bisa menggunakan Hashmap, List, Arrays. namun di untuk Thread kita bisa menggunakan ConcurrentHashMap dan menurut buku uncle bob ConcurrentHashMap memiliki performance yang lebih baik dibandingkan Hashmap. dan ConcurrentHashMap memungkinkan untuk membaca dan menulis secara simultan.
+jadi disini apabila kita biasanya untuk menyimpan Collection kita bisa menggunakan Hashmap, List, Arrays. namun untuk Thread kita bisa menggunakan ConcurrentHashMap dan menurut buku uncle bob ConcurrentHashMap memiliki performance yang lebih baik dibandingkan Hashmap. dan ConcurrentHashMap memungkinkan untuk membaca dan menulis secara simultan.
 
-**ReentrantLock:** mengimplementasikan antarmuka kunci dan menyediakan sinkronisasi metode sambil mengakses sumber daya bersama
+lalu ada beberapa jenis kelas lain yang ditambahkan untuk mendukung desain concurrency yang lebih advanced. Berikut ini beberapa contoh:
+
+**ReentrantLock:** mengimplementasikan antarmuka kunci dan menyediakan sinkronisasi metode sambil mengakses sumber daya bersama.
 
 **Semaphore:** adalah sebuah struktur data komputer yang digunakan untuk menyelesaikan proses, yaitu untuk memecahkan masalah di mana lebih dari satu proses atau thread dijalankan bersamaan.
 
@@ -73,7 +75,7 @@ jadi disini apabila kita biasanya untuk menyimpan Collection kita bisa menggunak
 ## Ketahui Models Execution Anda
 Basic Knowledge or definition:
 
-**Bound Resources:** Sumber daya ukuran tetap atau angka yang digunakan dalam lingkungan bersamaan.
+**Bound Resources:** Sumber daya ukuran tetap atau angka yang digunakan dalam lingkungan Conccurency.
 
 **Mutual Exclusion:** jaminan hanya satu proses yang mengakses sumber daya pada satu interval waktu tertentu
 
@@ -81,7 +83,7 @@ Basic Knowledge or definition:
 
 **Deadlock:** adalah suatu kondisi dimana dua proses atau lebih saling menunggu proses yang lain untuk melepaskan resource yang sedang dipakai.
 
-**Livelock:** adalah keadaan dimana dua proses atau lebih saling mengubah status sebagai respon terhadap perubahan status proses yang lain tanpa mengerjakan pekerjaan yang berarti. [source](http://arcana70.blogspot.com/2014/04/kbp-pert-1.html)
+**Livelock:** adalah keadaan dimana dua proses atau lebih saling mengubah status sebagai respon terhadap perubahan status proses yang lain tanpa mengerjakan pekerjaan yang berarti [[source]](http://arcana70.blogspot.com/2014/04/kbp-pert-1.html). analoginya seperti ini,  ketika dua orang bertemu di sebuah koridor yang sempit, dan masing-masing mencoba untuk bersikap sopan dengan menggerakkan badan ke samping untuk membiarkan lewat yang lain, tetapi mereka akhirnya bergoyang dari sisi ke sisi lain tanpa membuat kemajuan karena mereka berdua berulang kali pindah dengan cara yang sama pada waktu yang sama
 
 Contoh Deadlock: 
 ![img](./Picture1.png)
@@ -106,7 +108,7 @@ Solusi Dining – Philosophers Problem ada dua, yakni :
     Solusi Hirarki Resource: resources (sumpit) di meja makan telah diberi susunan hirarki. Setiap permintaan orang terhadap sebuah sumpit harus dilakukan pada susunan tertentu, dan dikembalikan pada susunan sebaliknya. Dalam hal ini, setiap orang dapat mengambil sumpit dimanapun diatas meja. Misalkan setiap sumpit diberi nomor sebagai tingkat hirarki dari 1 sampai 5, seseorang hanya dapat mengambil sumpit dengan nomor yang paling rendah, kemudian mengambil sumpit yang setingkat lebih tinggi. Ketika ia hendak mengembalikannya, orang itu harus meletakkan sumpit dengan nomor yang lebih tinggi terlebih dahulu, lalu yang rendah.
 
 ## Beware Dependencies Between Synchronized Methods
-Akan ada saat ketika Anda harus menggunakan lebih dari satu metode pada objek yang disharing, contoh menggunakan anotasi synchronized lebih dari satu method didalam satu class yang dimana tugas method tersebut untuk memproteksi individual method. Ketika hal ini terjadi, ada tiga cara untuk membuat kode tersebut benar:
+Akan ada saat ketika Anda harus menggunakan lebih dari satu metode pada objek yang disharing, contoh menggunakan anotasi synchronized lebih dari satu method didalam satu class yang dimana tugas anotation tersebut untuk memproteksi individual method. Ketika hal ini terjadi, ada tiga cara untuk membuat kode tersebut benar:
 
 * Client-Based Locking: yang dimana client akan melakukan lock terhadap server sebelum memanggil method pertamanya dan pastikan lock tersebut juga terbawa sampai panggilan method terakhirnya.
 * Server-Based Locking: buat method yang mengunci server, lalu memanggil semua method, lalu membuka kunci itu. jadi disini skenarionya bukan clientnnya yang menggunci melainkan servernya sendiri yang mengunci.
@@ -142,7 +144,7 @@ Tulis code conccurency-support yang bisa berjalan dalam beberapa configurasi:
 jadi buatlah code thread-base yang pulggable yang nantinya bisa dijalankan oleh berbagai konfigurasi.
 
 #### Make Your Threaded Code Tunable
-Sejak awal, temukan cara untuk mengukur waktu kinerja sistem Anda di bawah konfigurasi yang berbeda. Biarkan jumlah utas mudah disetel.
+Sejak awal, temukan cara untuk mengukur waktu kinerja sistem Anda di bawah konfigurasi yang berbeda. Biarkan jumlah Thread mudah disetel.
 
 #### Run with More Threads Than Processors
 lakukan Running proses dengan setting thread lebih dari proccessor atau core yang dimiliki. semakin sering melakukan itu, semakin sering akan mendapatkan error karena critical saction atau deadlock.
